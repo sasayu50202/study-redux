@@ -1,11 +1,11 @@
+import { RootState } from "@/state";
 import Link from "next/link";
 import { FC } from "react";
+import { useSelector } from "react-redux";
 
-type Props = {
-  todoCount: number;
-};
+export const Header: FC = () => {
+  const todos = useSelector((state: RootState) => state.todos);
 
-export const Header: FC<Props> = ({ todoCount }) => {
   return (
     <header>
       <nav>
@@ -16,7 +16,7 @@ export const Header: FC<Props> = ({ todoCount }) => {
           <Link href="/add">TODO追加</Link>
         </h2>
       </nav>
-      <h2>TODO:{todoCount}件</h2>
+      <h2>TODO:{todos.length}件</h2>
     </header>
   );
 };

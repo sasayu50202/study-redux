@@ -1,26 +1,20 @@
 import { Header } from "@/components/Header";
-import { Todo } from "@/types";
+import { addTodo } from "@/state/todos";
 import { NextPage } from "next";
-import { ComponentProps, Dispatch, SetStateAction } from "react";
+import { ComponentProps } from "react";
+import { useDispatch } from "react-redux";
 
-type Props = {
-  todos: Todo[];
-  setTodos: Dispatch<SetStateAction<Todo[]>>;
-};
-
-const Add: NextPage<Props> = ({ todos, setTodos }) => {
+const Add: NextPage = () => {
+  const dispatch = useDispatch();
   const handleSubmit: ComponentProps<"form">["onSubmit"] = (e) => {
     e.preventDefault();
     const text = e.currentTarget.text.value;
-    setTodos((prevTodos) => {
-      const newTodo = { id: prevTodos.length + 1, text, isDone: false };
-      return [...prevTodos, newTodo];
-    });
+    dispatch(addTodo(text));
     e.currentTarget.reset();
   };
   return (
     <div>
-      <Header todoCount={todos.length} />
+      <Header />
       <h1>TDOO追加</h1>
       <form onSubmit={handleSubmit}>
         <input type="text" name="text" autoComplete="off" required />
